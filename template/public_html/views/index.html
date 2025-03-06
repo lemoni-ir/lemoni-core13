@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .string {
+            color: #a3be8c;
+        }
+
+        .number {
+            color: #b48ead;
+        }
+
+        .boolean {
+            color: #d08770;
+        }
+
+        .null {
+            color: #bf616a;
+        }
+
+        .key {
+            color: #81a1c1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome.</h1>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/', {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        }).then(response => response.json()).then(data => {
+            const pre = document.createElement('pre');
+            pre.innerHTML = syntaxHighlight(JSON.stringify(data, null, 4));
+            document.body.appendChild(pre);
+        }).catch(error => console.error('Error:', error));
+
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(:\s*)?|\b(true|false|null)\b|-?\d+(\.\d+)?([eE][+-]?\d+)?)/g, function (match) {
+                let cls = 'number';
+                if (/^"/.test(match)) {
+                    cls = /:$/.test(match) ? 'key' : 'string';
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+    });
+</script>
+
+</html>

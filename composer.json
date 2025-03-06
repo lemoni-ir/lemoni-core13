@@ -1,0 +1,28 @@
+{
+    "name": "lemoni/core7",
+    "description": "A lightweight and simple PHP framework.<3",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lemoni-ir",
+            "email": "info@lemoni.ir"
+        }
+    ],
+    "scripts": {
+        "post-create-project-cmd": [
+            "php scripts/install.php"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Backend\\": "Backend/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.0",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
