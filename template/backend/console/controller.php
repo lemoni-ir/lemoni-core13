@@ -12,7 +12,7 @@ class controller
         $namespace = implode('\\', array_merge(['backend\controllers'], array_slice($api_name_array, 0, -2)));
         $class_name = $api_name_array[count($api_name_array) - 2];
         $method_name = ucfirst($api_name_array[count($api_name_array) - 1]);
-        $file_path = dirname(__DIR__) . '/contollers/' . implode(
+        $file_path = dirname(__DIR__) . '/controllers/' . implode(
             '/',
             array_slice($api_name_array, 0, -1)
         ) . '.php';
