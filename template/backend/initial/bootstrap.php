@@ -8,7 +8,7 @@ class bootstrap
     {
         spl_autoload_register(function ($class) {
             if (strpos($class, 'backend') === 0) {
-                $file = realpath(APP . substr($class, strlen('backend')) . ".php");
+                $file = realpath(dirname(__DIR__) . substr($class, strlen('backend')) . ".php");
                 if ($file) {
                     require_once $file;
                     if (class_exists($class, false) or interface_exists($class, false))
