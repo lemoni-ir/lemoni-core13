@@ -8,6 +8,8 @@ class kernel
     protected array $commands = [
         'model' => ['backend\\console\\model', 'create'],
         'controller' => ['backend\\console\\controller', 'create'],
+        'api' => ['backend\\console\\controller', 'create'],
+
     ];
 
     public function handle($argv)

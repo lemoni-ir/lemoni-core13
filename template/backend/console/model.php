@@ -28,13 +28,13 @@ class model
         $file_code[] = '<?php';
         $file_code[] = "namespace $namespace;";
         $file_code[] = "use lemoni\database\mysql\migration;";
-        $file_code[] = "class $class_name {";
-        $file_code[] = "\tpublic static function migration() {";
+        $file_code[] = "use lemoni\database\mysql\model;";
+        $file_code[] = "class $class_name extends model {";
+        $file_code[] = "\tpublic static function init() {";
         $file_code[] = "\t\tmigration::exe([]);";
         $file_code[] = "\t}";
         $file_code[] = "}";
         fwrite(fopen($file_path, 'w+'), implode("\n", $file_code));
         echo "\n\n" . realpath($file_path) . "\n\n";
     }
-
 }
