@@ -47,31 +47,21 @@ if (win) {
 
 
 
-
-
-
-
-
-
-$envFile = $projectRoot . '/.env';
+$envFile = realpath("$projectRoot/.env");
 $dbName = pathinfo($projectRoot, PATHINFO_BASENAME);
 
+
 $fileContents = file_get_contents($envFile);
+$replacement = "DB_DSN=mysql:host=localhost;dbname=$dbName;charset=UTF8;";
+$search = "DB_DSN=mysql:host=localhost;dbname=?;charset=UTF8;";
 
-$pattern = '/^DB_DSN=mysql:host=localhost;dbname=\?;charset=UTF8$/m';
-$replacement = "DB_DSN=mysql:host=localhost;dbname={$dbName};charset=UTF8";
+$fileContents = str_replace($search, $replacement, $fileContents);
 
-if (preg_match($pattern, $fileContents)) {
-    $fileContents = preg_replace($pattern, $replacement, $fileContents);
-    file_put_contents($envFile, $fileContents);
-    echo "\n\n\nDB_DSN updated successfully($dbName)!";
-} else {
-    echo "\n\n\nDB_DSN line not found.";
-}
+
+file_put_contents($envFile, $fileContents);
+echo "\n\n\nDB_DSN updated successfully($dbName)!";
 
 echo "\n\n$projectRoot:\n\n";
 echo "\nInstallation complete!\n";
 
-
-
-
+die("\n****** Finish ******\n");
