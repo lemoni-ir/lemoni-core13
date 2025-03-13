@@ -43,8 +43,34 @@ if (win) {
     exec("rm -rf \"$scriptsPath\"");
 }
 
-echo "$projectRoot:\n\n";
-echo "Installation complete!\n";
+
+
+
+
+
+
+
+
+
+
+$envFile = $projectRoot . '/.env';
+$dbName = pathinfo($projectRoot, PATHINFO_BASENAME);
+
+$fileContents = file_get_contents($envFile);
+
+$pattern = '/^DB_DSN=mysql:host=localhost;dbname=\?;charset=UTF8$/m';
+$replacement = "DB_DSN=mysql:host=localhost;dbname={$dbName};charset=UTF8";
+
+if (preg_match($pattern, $fileContents)) {
+    $fileContents = preg_replace($pattern, $replacement, $fileContents);
+    file_put_contents($envFile, $fileContents);
+    echo "\n\n\nDB_DSN updated successfully($dbName)!";
+} else {
+    echo "\n\n\nDB_DSN line not found.";
+}
+
+echo "\n\n$projectRoot:\n\n";
+echo "\nInstallation complete!\n";
 
 
 
