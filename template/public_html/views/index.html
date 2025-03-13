@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Hello World</title>
-	<link type="image/png" sizes="16x16" rel="icon" href="/favicon.png">
+    <title>API Fetcher</title>
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon.png">
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
         }
 
         pre {
@@ -17,6 +19,10 @@
             border-radius: 5px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            text-align: left;
+            max-width: 80%;
+            margin: 20px auto;
+            overflow-x: auto;
         }
 
         .string {
@@ -38,25 +44,53 @@
         .key {
             color: #81a1c1;
         }
+
+        input {
+            padding: 8px;
+            width: 300px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 16px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Welcome.</h1>
-</body>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch('/', {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        }).then(response => response.json()).then(data => {
-            const pre = document.createElement('pre');
-            pre.innerHTML = syntaxHighlight(JSON.stringify(data, null, 4));
-            document.body.appendChild(pre);
-        }).catch(error => console.error('Error:', error));
+    <h1>API Fetcher</h1>
+    <input type="text" id="apiPath" placeholder="Enter API path..." value="/">
+    <button onclick="fetchData()">Fetch</button>
+    <pre id="output">Loading...</pre>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => fetchData());
+
+        function fetchData() {
+            const path = document.getElementById('apiPath').value || '/';
+            fetch(path, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = syntaxHighlight(JSON.stringify(data, null, 4));
+                })
+                .catch(error => {
+                    document.getElementById('output').innerHTML = `<span style="color: red;">Error: ${error.message}</span>`;
+                });
+        }
 
         function syntaxHighlight(json) {
             json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            return json.replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(:\s*)?|\b(true|false|null)\b|-?\d+(\.\d+)?([eE][+-]?\d+)?)/g, function (match) {
+            return json.replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(:\s*)?|\b(true|false|null)\b|-?\d+(\.\d+)?([eE][+-]?\d+)?)/g, match => {
                 let cls = 'number';
                 if (/^"/.test(match)) {
                     cls = /:$/.test(match) ? 'key' : 'string';
@@ -65,10 +99,10 @@
                 } else if (/null/.test(match)) {
                     cls = 'null';
                 }
-                return '<span class="' + cls + '">' + match + '</span>';
+                return `<span class="${cls}">${match}</span>`;
             });
         }
-    });
-</script>
+    </script>
+</body>
 
 </html>

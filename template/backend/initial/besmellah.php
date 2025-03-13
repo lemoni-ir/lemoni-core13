@@ -27,6 +27,7 @@ try {
                 'request' => application::$controller . '/' . application::$method,
                 'post' => $_POST,
                 'get' => $_GET,
+                'debug' => debug_backtrace(),
                 'cookie' => $_COOKIE,
                 'server' => $_SERVER,
             ];

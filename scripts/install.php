@@ -13,7 +13,7 @@ if (!is_dir($templatePath))
 function copy_folder($src, $dst)
 {
     $dir = opendir($src);
-    @mkdir($dst, 0777, true);
+    @mkdir($dst, 0755, true);
 
     while (($file = readdir($dir)) !== false) {
         if ($file === '.' || $file === '..')
@@ -34,15 +34,16 @@ copy_folder($templatePath, $projectRoot);
 define('win', strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 
 if (win) {
-    echo "Win\n";
+    echo "\n\n\n--------\n\nWin\n\n\n\n";
     exec("rmdir /s /q \"$templatePath\"");
     exec("rmdir /s /q \"$scriptsPath\"");
 } else {
-    echo "Linux\n";
+    echo "\n\n\n--------\n\nLinux\n\n\n\n";
     exec("rm -rf \"$templatePath\"");
     exec("rm -rf \"$scriptsPath\"");
 }
 
+echo "$projectRoot:\n\n";
 echo "Installation complete!\n";
 
 

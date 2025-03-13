@@ -19,6 +19,7 @@
             "backend\\": "backend/"
         },
         "files": [
+            "backend/initial/functions.php",
             "backend/initial/bootstrap.php"
         ]
     },
