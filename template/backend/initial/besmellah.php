@@ -51,6 +51,7 @@ try {
             $data['method'] = $method;
             $data['class_exist'] = class_exists($controller);
             $data['method_exist'] = method_exists($controller, $method);
+            $data['debug'] =  debug_backtrace();
         }
         echo json_encode([
             'status' => 404,
